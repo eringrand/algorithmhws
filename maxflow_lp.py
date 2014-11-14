@@ -19,23 +19,21 @@ def main():
     t = int(sys.argv[3])
 
     G = readG(path)
-    H = G.to_directed()
     incoming = defaultdict(list)
     outgoing = defaultdict(list)
 
     # Define LP problem
     myprob = LpProblem("Maximum Flow", LpMaximize)
 
-    for (i,j) in H.edges_iter():
+    for (i,j) in G.edges_iter():
         # Make variables for the flow lines, max flow at capacity = 1
         # Make variables for both directions beacuse we need edges to go from i-j and j-i
-        edgevar = LpVariable("edge_from_"+str(j)+"_to_"+str(i), 0, 1, LpInteger)
-        #outvar = LpVariable("edge_from_"+str(i)+"_to_"+str(j), 0, 1, LpInteger)
-    
-        incoming[i].append(edgevar)
-        #incoming[j].append(outvar)
-        outgoing[j].append(edgevar)
-        #outgoing[i].append(outvar)
+        invar = LpVariable("edge_from_"+str(j)+"_to_"+str(i), 0, 1, LpInteger)
+        outvar = LpVariable("edge_from_"+str(i)+"_to_"+str(j), 0, 1, LpInteger)    
+        incoming[i].append(invar)
+        incoming[j].append(outvar)
+        outgoing[j].append(outvar)
+        outgoing[i].append(invar)
 
     # Objective
     myprob += lpSum(incoming[s]) - lpSum(outgoing[s])
@@ -49,7 +47,6 @@ def main():
     myprob += lpSum(incoming[t]) - lpSum(outgoing[t]) == -(lpSum(incoming[s]) - lpSum(outgoing[s])), "target flow"
 
     # Solve LP problem
-    # print myprob
     myprob.solve()
     
     # Print maxflow value
