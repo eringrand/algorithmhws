@@ -14,6 +14,7 @@ from collections import defaultdict
 
 def readG(path):
     G = read_gml(path)
+    # Include both directions beacuse we need edges to go from i-j and j-i
     H = G.to_directed()
     return H 
 

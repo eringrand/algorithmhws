@@ -11,6 +11,7 @@ from collections import defaultdict
 
 def readG(path):
     G = read_gml(path)
+    # Include both directions beacuse we need edges to go from i-j and j-i
     H = G.to_directed()
     return H    
 
@@ -28,7 +29,6 @@ def main():
 
     for (i,j) in H.edges_iter():
         # Make variables for the flow lines, max flow at capacity = 1
-        # Make variables for both directions beacuse we need edges to go from i-j and j-i
         edgevar = LpVariable("edge_from_"+str(j)+"_to_"+str(i), 0, 1, LpInteger)
         incoming[i].append(edgevar)
         outgoing[j].append(edgevar)
