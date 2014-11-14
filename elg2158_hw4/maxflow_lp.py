@@ -30,8 +30,9 @@ def main():
         # Make variables for the flow lines, max flow at capacity = 1
         # Make variables for both directions beacuse we need edges to go from i-j and j-i
         edgevar = LpVariable("edge_from_"+str(j)+"_to_"+str(i), 0, 1, LpInteger)
+    
         incoming[i].append(edgevar)
-        outgoing[i].append(edgevar)
+        outgoing[j].append(edgevar)
 
     # Objective
     myprob += lpSum(incoming[s]) - lpSum(outgoing[s])
@@ -45,6 +46,7 @@ def main():
     myprob += lpSum(incoming[t]) - lpSum(outgoing[t]) == -(lpSum(incoming[s]) - lpSum(outgoing[s])), "target flow"
 
     # Solve LP problem
+    # print myprob
     myprob.solve()
     
     # Print maxflow value
