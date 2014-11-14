@@ -11,15 +11,15 @@ from collections import defaultdict
 
 def readG(path):
     G = read_gml(path)
-    return G    
+    H = G.to_directed()
+    return H    
 
 def main():
     path = sys.argv[1]
     s = int(sys.argv[2])
     t = int(sys.argv[3])
 
-    G = readG(path)
-    H = G.to_directed()
+    H = readG(path)
     incoming = defaultdict(list)
     outgoing = defaultdict(list)
 
@@ -30,7 +30,6 @@ def main():
         # Make variables for the flow lines, max flow at capacity = 1
         # Make variables for both directions beacuse we need edges to go from i-j and j-i
         edgevar = LpVariable("edge_from_"+str(j)+"_to_"+str(i), 0, 1, LpInteger)
-    
         incoming[i].append(edgevar)
         outgoing[j].append(edgevar)
 
@@ -38,7 +37,7 @@ def main():
     myprob += lpSum(incoming[s]) - lpSum(outgoing[s])
 
     # Constraints
-    for u in G.nodes_iter():
+    for u in H.nodes_iter():
         if u != s and u != t:
             myprob += lpSum(incoming[u]) - lpSum(outgoing[u]) == 0, "flow" + str(u)
 

@@ -14,15 +14,15 @@ from collections import defaultdict
 
 def readG(path):
     G = read_gml(path)
-    return G    
+    H = G.to_directed()
+    return H 
 
 def main():
     path = sys.argv[1]
     s = int(sys.argv[2])
     t = int(sys.argv[3])
 
-    G = readG(path)
-    H = G.to_directed()
+    H = readG(path)
     q = []
     p = []
 
