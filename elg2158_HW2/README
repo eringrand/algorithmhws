@@ -1,0 +1,18 @@
+Introduction:
+-----------
+This is the programing assignment for homework 2. Given a graph input, this program finds the strongly connected components of the graph and writes the output to a file. 
+
+Contents:
+-----------
+Output files names out*.txt for each of the input files
+Strongly connected python program: scc1.py
+
+Requirements:
+-----------
+Download and unzip the input files into the same directory as the python program
+Required the collections, operator, glob and sys python packages. 
+
+
+Running the program:
+-----------
+In a terminal type: python scc1.py
